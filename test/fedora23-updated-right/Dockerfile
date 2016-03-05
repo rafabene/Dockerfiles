@@ -6,4 +6,4 @@ FROM fedora:23
 MAINTAINER Rafael Benevides <benevides@redhat.com>
 
 # Run update
-RUN dnf -y update
+RUN dnf -y update && dnf clean all
