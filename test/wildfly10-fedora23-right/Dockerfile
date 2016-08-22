@@ -10,15 +10,11 @@ ENV WILDFLY_VERSION 10.0.0.Final
 # Install necessary packages
 RUN dnf -y install java-1.8.0-openjdk-devel tar && dnf clean all
 
-RUN mkdir -p /opt/jboss/wildfly
-
 #Add Wildfly 10.0.0 to this image
-RUN cd /tmp \
-  && curl -O https://download.jboss.org/wildfly/$WILDFLY_VERSION/wildfly-$WILDFLY_VERSION.tar.gz \
-      && tar xf wildfly-$WILDFLY_VERSION.tar.gz \
-      && mv /tmp/wildfly-$WILDFLY_VERSION /opt/jboss/wildfly \
-      && rm /tmp/wildfly-$WILDFLY_VERSION.tar.gz
-      
+RUN  mkdir -p /opt/jboss/wildfly \
+  && curl -sS --retry 5 https://download.jboss.org/wildfly/$WILDFLY_VERSION/wildfly-$WILDFLY_VERSION.tar.gz \
+  | tar xfz - -C /opt/jboss/wildfly --strip-components=1
+  
 # Expose the ports we're interested in
 EXPOSE 8080
 
